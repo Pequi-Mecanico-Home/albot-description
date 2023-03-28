@@ -12,8 +12,8 @@
 
 
             <!-- Limits -->
-            <max_wheel_torque>200</max_wheel_torque>
-            <max_wheel_acceleration>10.0</max_wheel_acceleration>
+            <max_wheel_torque>20</max_wheel_torque>
+            <max_wheel_acceleration>1.0</max_wheel_acceleration>
 
             
             <!-- Output -->
@@ -28,24 +28,23 @@
     </gazebo>
 
 
-<gazebo reference="rplidar_a1">
+<gazebo reference="lidar_a1">
   <sensor type="ray" name="head_hokuyo_sensor">
     <pose>0 0 0 0 0 0</pose>
     <visualize>true</visualize>
-    <update_rate>5</update_rate>
+    <update_rate>10</update_rate>
     <ray>
       <scan>
         <horizontal>
           <samples>360</samples>
           <resolution>1</resolution>
-          <min_angle>4.7</min_angle>
-          <max_angle>7.9</max_angle>
+          <min_angle>-3.14</min_angle>
+          <max_angle>3.14</max_angle>
         </horizontal>
       </scan>
       <range>
         <min>0.120</min>
         <max>3.5</max>   
-        <resolution>0.015</resolution>
       </range>
       <noise>
         <type>gaussian</type>
@@ -53,9 +52,12 @@
         <stddev>0.01</stddev>
       </noise>
     </ray>
-    <plugin name="gazebo_ros_hokuyo_controller" filename="libgazebo_ros_laser.so">
-      <topicName>scan</topicName>
-      <frameName>rplidar_a1</frameName>
+    <plugin name="gazebo_ros_hokuyo_controller" filename="libgazebo_ros_ray_sensor.so">
+      <ros>
+        <argument>~/out:=scan</argument>
+      </ros>
+      <output_type>sensor_msgs/LaserScan</output_type>
+      <frameName>lidar_a1</frameName>
     </plugin>
   </sensor>
 </gazebo>

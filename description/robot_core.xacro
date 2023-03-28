@@ -51,7 +51,7 @@
                 <mesh filename="file://$(find albot-description)/description/meshes/base_link.stl"/>
             </geometry>
         </collision>
-        <xacro:inertial_box mass="3" x="0.455" y="0.4" z="0.263"> <!-- mass in kg, length and radius in meters (To Be Measured) -->
+        <xacro:inertial_box mass="5" x="0.455" y="0.4" z="0.263"> <!-- mass in kg, length and radius in meters (To Be Measured) -->
             <origin xyz="0.183 0 -.1" rpy="0 0 ${pi}"/>
         </xacro:inertial_box>
     </link>
@@ -134,7 +134,7 @@
                 <mesh filename="file://$(find albot-description)/description/meshes/caster_wheel.stl"/>
             </geometry>
         </collision>
-        <xacro:inertial_sphere mass="0.1" radius="0.05"> <!-- mass in kg, length and radius in meters (To Be Measured) -->
+        <xacro:inertial_sphere mass="5" radius="0.05"> <!-- mass in kg, length and radius in meters (To Be Measured) -->
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_sphere>
     </link>
@@ -147,7 +147,7 @@
     <joint name="lidar_a1_joint" type="fixed">
         <parent link="base_link"/>
         <child link="lidar_a1"/>
-        <origin xyz="0 0 0.285" rpy="0 0 0" />
+        <origin xyz="0 0 0.3" rpy="0 0 0" />
     </joint>
 
     <link name="lidar_a1">
@@ -155,7 +155,7 @@
             <geometry>
                 <mesh filename="file://$(find albot-description)/description/meshes/lidar.stl"/>
             </geometry>
-            <origin xyz="0 0 -0.025"/>
+            <origin xyz="0 0 -0.04"/>
         </visual>
         <collision>
             <origin xyz="0 0 -0.01"/>
