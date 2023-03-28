@@ -143,5 +143,30 @@
         <mu1 value="0.001"/> <!-- (To Be Measured) -->
         <mu2 value="0.001"/> <!-- (To Be Measured) -->
     </gazebo>
+
+    <joint name="lidar_a1_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="lidar_a1"/>
+        <origin xyz="0 0 0.285" rpy="0 0 0" />
+    </joint>
+
+    <link name="lidar_a1">
+        <visual>
+            <geometry>
+                <mesh filename="file://$(find albot-description)/description/meshes/lidar.stl"/>
+            </geometry>
+            <origin xyz="0 0 -0.025"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.01"/>
+            <geometry>
+                <mesh filename="file://$(find albot-description)/description/meshes/lidar.stl"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_sphere mass="0.1" radius="0.05"> <!-- mass in kg, length and radius in meters (To Be Measured) -->
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_sphere>
+    </link>
+    
     
 </robot>
