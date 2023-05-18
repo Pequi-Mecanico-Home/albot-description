@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <xacro:macro name="sonar_xacro" params="sonar_prefix *joint_pose">
+
+        <joint name="${sonar_prefix}_sonar_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="${sonar_prefix}_sonar_sensor"/>
+            <xacro:insert_block name="joint_pose"/>
+        </joint>
+
+        <link name="${sonar_prefix}_sonar_sensor">
+            <visual>
+                <geometry>
+                    <mesh filename="file://$(find albot-description)/description/meshes/sonar.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <origin xyz="0 -0.023 -0.01" rpy="${pi/2} 0 ${pi/2}"/>
+            </visual>
+            <collision>
+                <origin xyz="0.005 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <box size="0.017 0.042 0.015"/>
+                </geometry>
+            </collision>
+            <xacro:inertial_sphere mass="0.1" radius="0.05"> <!-- mass in kg, length and radius in meters (To Be Measured) -->
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+            </xacro:inertial_sphere>
+        </link>
+        
+        <gazebo reference="${sonar_prefix}_sonar_sensor">
+            <sensor name="${sonar_prefix}_sonar_ultrasound" type="ray">
+                <always_on>true</always_on>
+                <visualize>false</visualize>
+                <pose>0.0 0 0.0 0 0 0</pose>
+                <update_rate>50</update_rate>
+                <ray>
+                    <scan>
+                        <horizontal>
+                            <samples>5</samples>
+                            <resolution>1.0</resolution>
+                            <min_angle>-0.18</min_angle>
+                            <max_angle>0.18</max_angle>
+                        </horizontal>
+                        <vertical>
+                            <samples>5</samples>
+                            <resolution>1.0</resolution>
+                            <min_angle>-0.01</min_angle>
+                            <max_angle>0.01</max_angle>
+                        </vertical>
+                    </scan>
+                    <range>
+                        <min>0.01</min>
+                        <max>0.5</max>
+                        <resolution>0.01</resolution>
+                    </range>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.01</stddev>
+                    </noise>
+                </ray>
+                <plugin name="bytes_ultrasound" filename="libgazebo_ros_ray_sensor.so">
+                    <ros>
+                        <namespace>distance</namespace>
+                        <remapping>~/out:=${sonar_prefix}_sonar</remapping>
+                    </ros>
+                    <output_type>sensor_msgs/Range</output_type>
+                    <radiation_type>ultrasound</radiation_type>
+                    <frame_name>${sonar_prefix}_sonar_dist_sensor</frame_name>
+                </plugin>
+            </sensor>
+            <material>Gazebo/Blue</material>
+        </gazebo>
+    </xacro:macro>
+
+    <!-- Albot sonar macros -->
+    <xacro:sonar_xacro sonar_prefix="front_right">
+    <origin xyz= "0.215 -0.13 0.03" rpy="0 0 -${pi/4}"/>
+    </xacro:sonar_xacro>
+
+    <xacro:sonar_xacro sonar_prefix="back_right">
+    <origin xyz="-0.135 -0.13 0.03" rpy="0 0 -${3.2*pi/4}"/>
+    </xacro:sonar_xacro>
+
+    <xacro:sonar_xacro sonar_prefix="back_left">
+    <origin xyz="-0.135 0.13 0.03" rpy="0 0 ${3.2*pi/4}"/>
+    </xacro:sonar_xacro>
+
+    <xacro:sonar_xacro sonar_prefix="front_left">
+    <origin xyz="0.215 0.13 0.03" rpy="0 0 ${pi/4}"/>
+    </xacro:sonar_xacro>
+
+</robot>
