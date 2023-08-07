@@ -12,7 +12,7 @@
         <link name="${sonar_prefix}_sonar_sensor">
             <visual>
                 <geometry>
-                    <mesh filename="file://$(find albot-description)/description/meshes/sonar.stl" scale="0.001 0.001 0.001"/>
+                    <!-- <mesh filename="file://$(find albot-description)/description/meshes/sonar.stl" scale="0.001 0.001 0.001"/> -->
                 </geometry>
                 <origin xyz="0 -0.023 -0.01" rpy="${pi/2} 0 ${pi/2}"/>
             </visual>
@@ -61,7 +61,7 @@
                 </ray>
                 <plugin name="bytes_ultrasound" filename="libgazebo_ros_ray_sensor.so">
                     <ros>
-                        <namespace>distance</namespace>
+                        <namespace>${sonar_prefix}_distance</namespace>
                         <remapping>~/out:=${sonar_prefix}_sonar</remapping>
                     </ros>
                     <output_type>sensor_msgs/Range</output_type>
